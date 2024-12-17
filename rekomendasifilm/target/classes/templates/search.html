@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/search.css">
+</head>
+<body>
+    <header>
+        <h1>Search Results</h1>
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by title or genre" value="" required>
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <div class="search-results">
+        <h2 th:text="'Results for: ' + ${query}"></h2>
+        <ul>
+            <li th:each="movie : ${movies}">
+                <a th:href="@{'/details/' + ${movie.id}}">
+                    <img th:src="'https://image.tmdb.org/t/p/w200' + ${movie.poster_path}" alt="Poster" class="poster-thumb">
+                    <span th:text="${movie.title}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <footer>
+        <a href="/" class="back-button">Back to Home</a>
+    </footer>
+</body>
+</html>

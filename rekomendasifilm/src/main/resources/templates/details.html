@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title th:text="'Details - ' + ${movie.title}"></title>
+    <link rel="stylesheet" href="/details.css">
+</head>
+<body>
+    <header>
+        <h1 th:text="${movie.title}"></h1>
+    </header>
+
+    <div class="movie-details">
+        <!-- Poster -->
+        <img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}" alt="Poster" class="movie-poster">
+
+        <!-- Informasi Film -->
+        <div class="movie-info">
+            <p><strong>Release Date:</strong> <span th:text="${movie.release_date}"></span></p>
+            <p><strong>Rating:</strong> <span th:text="${movie.vote_average}"></span>/10</p>
+            <p><strong>Overview:</strong></p>
+            <p th:text="${movie.overview}"></p>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/" class="back-button">Back to Home</a>
+    </footer>
+</body>
+</html>
