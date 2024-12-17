@@ -8,7 +8,7 @@ let detectedEmotion = ''; // Menyimpan emosi yang terdeteksi
 
 // Menampilkan dialog untuk membuka kamera
 detectButton.addEventListener("click", () => {
-    cameraDialog.style.display = 'block'; // Menampilkan dialog
+    cameraDialog.style.display = 'flex'; // Menampilkan dialog
     startVideo();
 });
 
@@ -71,6 +71,8 @@ function capture() {
             .catch(error => console.error("Error sending image:", error));
     });
 }
+
+
 
 function displayMovies(movies) {
     const movieList = document.getElementById('movie-list');

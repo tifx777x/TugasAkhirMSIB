@@ -48,9 +48,11 @@ def detect_emotion():
         # Mapping emosi ke genre TMDB
         emotion_to_genre = {
             'angry': 28,       # Action
-            'happy': 10749,    # Romance
+            'happy': 14,    # Romance
             'sad': 35,         # Comedy
             'fear': 53,        # Thriller
+            'surprise': 27,
+            'disgust': 35,
             'neutral': None,   # Semua Genre
         }
         genre_id = emotion_to_genre.get(detected_emotion)

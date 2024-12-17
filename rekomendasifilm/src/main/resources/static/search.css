@@ -1,71 +1,87 @@
 /* Gaya Form Pencarian */
 .search-form {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .search-form input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .search-form button {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-left: 10px;
-    cursor: pointer;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 .search-form button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* Gaya Hasil Pencarian */
-.search-results {
-    display: flex;
+
+.search-results a{
+    text-decoration: none;
+    color: #000;
+}
+.search-results a:hover{
+    color: #3498db;
+}
+.search-results ul {
+  list-style-type: none;
+  display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-.search-results ul {
-    list-style-type: none;
-    padding: 0;
+a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
 }
 
 .search-results li {
-    width: 200px;
+    width: 180px; /* Membatasi lebar tiap item film */
+    margin: 15px;
     text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .poster-thumb {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .poster-thumb:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s;
+  transform: scale(1.05);
+  transition: transform 0.2s;
 }
 
 .back-button {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-left: 10px;
-    cursor: pointer;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .back-button button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }

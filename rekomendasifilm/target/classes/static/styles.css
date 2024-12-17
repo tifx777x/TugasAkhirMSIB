@@ -23,7 +23,7 @@ body {
 
 /* Heading */
 h1 {
-    color: #2c3e50;
+    color: #2980b9;
     margin-bottom: 20px;
 }
 
@@ -160,10 +160,22 @@ a {
     font-weight: bold;
 }
 
-a:hover {
-    color: #2ecc71;
+li img:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
 }
 
+a:hover {
+    color: #3498db;
+}
+
+.pageBtn > button{
+    background-color: #2980b9;
+}
+.pageBtn > button:hover{
+    background-color: #3498db;
+}
+    
 /* Responsive Design */
 @media (max-width: 768px) {
     li {
