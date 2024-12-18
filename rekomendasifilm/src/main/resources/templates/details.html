@@ -1,29 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="'Details - ' + ${movie.title}"></title>
-    <link rel="stylesheet" href="/details.css">
+    <link rel="stylesheet" href="/details.css"> <!-- Link ke file CSS eksternal -->
+    <!-- Bootstrap CSS for navbar and layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <header>
-        <h1 th:text="${movie.title}"></h1>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">CineMOOD</a> <!-- Button Kembali di Navbar -->
+                <div class="d-flex">
+                    <form class="d-flex" role="search" action="/search" method="get">
+                        <input class="form-control me-2" type="text" name="query" placeholder="Search by Title or Genre" required aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <div class="movie-details">
-        <!-- Poster -->
-        <img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}" alt="Poster" class="movie-poster">
+    <!-- Background Poster (Fading effect) -->
+    <div class="poster-background" style="background-image: url('https://image.tmdb.org/t/p/w500${movie.poster_path}');"></div>
 
-        <!-- Informasi Film -->
-        <div class="movie-info">
-            <p><strong>Release Date:</strong> <span th:text="${movie.release_date}"></span></p>
-            <p><strong>Rating:</strong> <span th:text="${movie.vote_average}"></span>/10</p>
-            <p><strong>Overview:</strong></p>
-            <p th:text="${movie.overview}"></p>
+    <!-- Movie Details -->
+    <div class="movie-details">
+        <div class="container mt-4">
+            <!-- Movie Title -->
+            <h1 th:text="${movie.title}" class="movie-title"></h1>
+
+            <div class="row">
+                <!-- Poster -->
+                <div class="col-md-4">
+                    <img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}" alt="Poster" class="movie-poster img-fluid">
+                </div>
+
+                <!-- Movie Info -->
+                <div class="col-md-8">
+                    <p><strong>Genre:</strong> <span th:text="${movie.genres}"></span></p>
+                    <p><strong>Release Date:</strong> <span th:text="${movie.release_date}"></span></p>
+                    <p><strong>Rating:</strong> <span th:text="${movie.vote_average}"></span>/10</p>
+                    <p><strong>Overview:</strong></p>
+                    <p th:text="${movie.overview}"></p>
+                </div>
+            </div>
+
+            <!-- Trailer Section -->
+            <div class="trailer-background mt-4">
+                <iframe src="https://www.youtube.com/embed/${movie.trailer_id}?autoplay=1&mute=1&loop=1&playlist=${movie.trailer_id}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <!-- User Reviews Section -->
+            <div class="mt-4">
+                <h5>User Reviews</h5>
+                <div id="user-reviews">
+                    <div th:each="review : ${movie.reviews}">
+                        <div class="review-box">
+                            <p><strong th:text="${review.author}"></strong>:</p>
+                            <p th:text="${review.content}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <footer>
-        <a href="/" class="back-button">Back to Home</a>
+    <footer class="text-center mt-4">
+        <p>&copy; 2024 CineMOOD</p>
     </footer>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

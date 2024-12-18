@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Results</title>
     <link rel="stylesheet" href="/search.css" />
     <link
@@ -13,7 +15,7 @@
       <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd">
         <div class="container-fluid">
           <a class="btn btn-outline-primary" href="/">Back</a>
-          <a class="navbar-brand ms-4" href="#">Search For Result</a>
+          <a class="navbar-brand ms-4" href="#">Search Result</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -48,19 +50,18 @@
     </header>
 
     <div class="search-results">
-      <ul>
-        <li th:each="movie : ${movies}">
-          <a th:href="@{'/details/' + ${movie.id}}">
-            <img
-              th:src="'https://image.tmdb.org/t/p/w200' + ${movie.poster_path}"
-              alt="Poster"
-              class="poster-thumb"
-            />
-            <span th:text="${movie.title}"></span>
-          </a>
-        </li>
+      <ul id="movie-list">
+        <!-- Daftar film akan diisi oleh JavaScript -->
       </ul>
     </div>
+
+    <div id="pagination" class="pageBtn">
+      <button id="prevPage" onclick="prevPage()">Previous</button>
+      <span id="pageIndicator">Page 1</span>
+      <button id="nextPage" onclick="nextPage()">Next</button>
+    </div>
+
+    <script src="/search.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

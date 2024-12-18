@@ -85,3 +85,29 @@ a {
 .back-button button:hover {
   background-color: #0056b3;
 }
+
+#pagination {
+  display: flex;
+  justify-content: center; /* Memusatkan tombol */
+  align-items: center;     /* Menjaga agar tombol tetap di tengah vertikal */
+  margin-top: 20px;        /* Jarak atas dari konten sebelumnya */
+}
+
+#pagination button {
+  margin: 0 10px;          /* Memberikan jarak antar tombol */
+  padding: 5px 15px;       /* Ukuran tombol */
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#pagination button:hover {
+  background-color: #3498db;
+}
+
+#pageIndicator {
+  font-size: 1.1rem;       /* Ukuran font untuk indikator halaman */
+  margin: 0 15px;          /* Memberikan jarak antara tombol dan indikator */
+}

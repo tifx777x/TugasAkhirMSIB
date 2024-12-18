@@ -90,14 +90,31 @@ button:focus {
 
 /* Camera Container */
 #camera-container {
-    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
 }
 
-video {
+#video {
     width: 100%;
-    max-width: 500px;
-    border-radius: 10px;
+    height: auto;
+    border-radius: 8px;
 }
+
+#camera-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border: 3px solid #00ff00;
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
 
 /* Form Styling */
 .search-form {

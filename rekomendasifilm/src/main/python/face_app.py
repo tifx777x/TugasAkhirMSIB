@@ -15,8 +15,8 @@ CORS(app, origins=['http://localhost:8080'])
 #app.config['CORS_HEADERS'] = ['Content-Type']
 
 # Load emotion detection model
-emotion_model = tf.keras.models.load_model('emotion_model.h5')
-emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+emotion_model = tf.keras.models.load_model('emotion_models.h5')
+emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 'Neutral']
 
 TMDB_API_KEY = '4822c132c84e58653f0d6ac31a477b69'
 
@@ -42,17 +42,17 @@ def detect_emotion():
         # Prediksi emosi
         prediction = emotion_model.predict(img_array)
         emotion_index = np.argmax(prediction)
-        emotions = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+        emotions = ['angry', 'disgusted', 'fearful', 'happy', 'sad', 'surprised', 'neutral']
         detected_emotion = emotions[emotion_index]
 
         # Mapping emosi ke genre TMDB
         emotion_to_genre = {
-            'angry': 28,       # Action
-            'happy': 14,    # Romance
+            'angry': 9648,       # Action
+            'happy': 14,    # fantasy
             'sad': 35,         # Comedy
-            'fear': 53,        # Thriller
-            'surprise': 27,
-            'disgust': 35,
+            'fearful': 53,        # Thriller
+            'surprised': 27,
+            'disgusted': 35,
             'neutral': None,   # Semua Genre
         }
         genre_id = emotion_to_genre.get(detected_emotion)
@@ -77,9 +77,10 @@ def detect_emotion():
 @app.route('/recommend', methods=['GET'])
 def recommend_movies():
     genre = request.args.get('genre', 'random')  # Genre or 'random'
+    page = request.args.get('page', 1)  # Nomor halaman (default ke 1)
     query = f"&with_genres={genre}" if genre != 'random' else ""
 
-    url = f"https://api.themoviedb.org/3/discover/movie?api_key={TMDB_API_KEY}&language=en-US{query}&sort_by=popularity.desc"
+    url = f"https://api.themoviedb.org/3/discover/movie?api_key={TMDB_API_KEY}&language=en-US{query}&sort_by=popularity.desc&page={page}"
     response = requests.get(url).json()
 
     return jsonify(response['results'])
@@ -87,16 +88,76 @@ def recommend_movies():
 @app.route('/search', methods=['GET'])
 def search_movies():
     query = request.args.get('query', '')
-    url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&language=en-US"
+    page = request.args.get('page', 1)  # Nomor halaman (default ke 1)
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}&language=en-US"
     response = requests.get(url).json()
 
-    return jsonify(response['results'])
+    return jsonify({
+        'results': response.get('results', []),
+        'page': response.get('page', 1),
+        'total_pages': response.get('total_pages', 1)
+    })
+
+GENRE_MAP = {
+    28: 'Action',
+    12: 'Adventure',
+    16: 'Animation',
+    35: 'Comedy',
+    80: 'Crime',
+    99: 'Documentary',
+    18: 'Drama',
+    10751: 'Family',
+    14: 'Fantasy',
+    36: 'History',
+    27: 'Horror',
+    10402: 'Music',
+    9648: 'Mystery',
+    10749: 'Romance',
+    878: 'Science Fiction',
+    10770: 'TV Movie',
+    53: 'Thriller',
+    10752: 'War',
+    37: 'Western'
+}
 
 @app.route('/details/<int:movie_id>', methods=['GET'])
 def movie_details(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&language=en-US"
-    response = requests.get(url).json()
-    return jsonify(response)
+    try:
+        # Mendapatkan detail film
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&language=en-US"
+        movie_response = requests.get(url).json()
+
+        # Pastikan film ditemukan
+        if movie_response.get('status_code') == 34:  # Film tidak ditemukan
+            return jsonify({'error': 'Movie not found'}), 404
+
+        # Mendapatkan trailer film
+        trailer_url = f"https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={TMDB_API_KEY}&language=en-US"
+        trailer_response = requests.get(trailer_url).json()
+        trailer_id = None
+        if 'results' in trailer_response and len(trailer_response['results']) > 0:
+            trailer_id = trailer_response['results'][0]['key']  # Mengambil trailer pertama
+
+        # Mendapatkan review pengguna
+        reviews_url = f"https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key={TMDB_API_KEY}&language=en-US"
+        reviews_response = requests.get(reviews_url).json()
+        reviews = reviews_response.get('results', [])
+
+        genre_names = []
+        if 'genres' in movie_response:
+            genre_names = [GENRE_MAP.get(genre['id'], 'Unknown') for genre in movie_response['genres']]
+
+        # Menambahkan trailer_id, reviews, dan genre_names ke data movie
+        movie_response['trailer_id'] = trailer_id
+        movie_response['reviews'] = reviews
+        movie_response['genres'] = genre_names
+
+        return jsonify(movie_response)
+    
+    except Exception as e:
+        print("Error fetching movie details:", str(e))
+        traceback.print_exc()
+        return jsonify({'error': 'Failed to fetch movie details'}), 500
 
 
 if __name__ == '__main__':

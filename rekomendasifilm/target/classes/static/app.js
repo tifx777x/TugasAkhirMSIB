@@ -2,8 +2,9 @@ const video = document.getElementById('video');
 const detectButton = document.getElementById('detectEmotion');
 const cameraDialog = document.getElementById('camera-dialog');
 const closeDialog = document.getElementById('close-dialog');
+const captureButton = document.getElementById('capture');
+const movieList = document.getElementById('movie-list');
 
-let currentPage = 1;  // Menyimpan halaman yang aktif
 let detectedEmotion = ''; // Menyimpan emosi yang terdeteksi
 
 // Menampilkan dialog untuk membuka kamera
@@ -35,27 +36,29 @@ function stopVideo() {
     }
 }
 
-// Fungsi untuk menangkap gambar dan mengirimkannya ke server
-// Fungsi untuk menangkap gambar dan mengirimkannya ke server
+// Fungsi untuk menangkap gambar dari area kotak frame dan mengirimkannya ke server
 function capture() {
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0);
 
-    // Mengubah gambar menjadi RGB
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const imgArray = imgData.data;
+    // Ukuran kotak frame
+    const frameWidth = 150; // Harus sesuai dengan CSS
+    const frameHeight = 150;
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
 
-    // Menambahkan RGB channel jika tidak ada
-    for (let i = 0; i < imgArray.length; i += 4) {
-        imgArray[i + 3] = 255; // Pastikan saluran alpha (transparansi) adalah 255 (tidak transparan)
-    }
+    // Hitung posisi frame di tengah video
+    const frameX = (videoWidth - frameWidth) / 2;
+    const frameY = (videoHeight - frameHeight) / 2;
 
-    // Menggambar ulang gambar RGB pada canvas
-    ctx.putImageData(imgData, 0, 0);
+    // Set ukuran canvas
+    canvas.width = frameWidth;
+    canvas.height = frameHeight;
 
+    // Potong area frame dari video
+    ctx.drawImage(video, frameX, frameY, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+
+    // Kirim gambar ke server
     canvas.toBlob(blob => {
         const formData = new FormData();
         formData.append('image', blob, 'image.jpg'); // Menambahkan gambar ke FormData
@@ -64,26 +67,71 @@ function capture() {
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
-            .then(data => {alert('Detected emotion: ' + data.emotion);
-                            displayMovies(data.movies);
-    })
-            .catch(error => console.error("Error sending image:", error));
+        .then(response => response.json())
+        .then(data => {
+            alert('Detected emotion: ' + data.emotion);
+            detectedEmotion = data.emotion; // Simpan emosi yang terdeteksi
+            displayMovies(data.movies); // Tampilkan film yang direkomendasikan
+        })
+        .catch(error => console.error("Error sending image:", error));
     });
 }
 
+let currentPage = 1; // Halaman aktif
+const maxPage = 1000; // TMDB mendukung hingga 1000 halaman
 
+function fetchMovies(page = 1) {
+    const url = `http://localhost:5000/recommend?page=${page}`;
 
+    fetch(url)
+        .then(response => response.json())
+        .then(movies => {
+            displayMovies(movies); // Tampilkan film
+            updatePaginationButtons(); // Perbarui status tombol
+        })
+        .catch(error => console.error("Error fetching movies:", error));
+}
+
+function nextPage() {
+    if (currentPage < maxPage) {
+        currentPage++;
+        fetchMovies(currentPage);
+    }
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchMovies(currentPage);
+    }
+}
+
+function updatePaginationButtons() {
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    const pageIndicator = document.getElementById('pageIndicator');
+
+    // Perbarui tombol berdasarkan halaman saat ini
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === maxPage;
+
+    // Tampilkan nomor halaman
+    pageIndicator.textContent = `Page ${currentPage}`;
+}
+
+// Fungsi untuk menampilkan rekomendasi film
 function displayMovies(movies) {
-    const movieList = document.getElementById('movie-list');
     movieList.innerHTML = ''; // Bersihkan daftar sebelumnya
 
     movies.forEach(movie => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.title}" />
-            <a href="/details/${movie.id}" target="_blank">${movie.title}</a>
+        <a href="/details/${movie.id}">
+            <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.title}" class = "poster-thumb" />
+            <span>${movie.title}</span>
+        </a>
         `;
         movieList.appendChild(listItem);
     });
 }
+

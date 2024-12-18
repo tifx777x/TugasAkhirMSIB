@@ -1,54 +1,87 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+/* Background poster style */
+.poster-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(50%) blur(5px); /* Fading and blur effect */
+    z-index: -1;
 }
 
-header {
-    text-align: center;
+/* Styles for movie details */
+.movie-details {
+    position: relative;
+    padding-top: 60px;
+    z-index: 2;
+    background-color: white;
+}
+
+a {
+    display: block;
+    padding: 2px;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+}
+
+/* Styling the trailer section */
+.trailer-background iframe {
+    width: 100%;
+    height: 500px;
+}
+
+/* Styling the User Review Section with a box decoration */
+#user-reviews {
+    max-height: 200px; /* Limited height */
+    overflow-y: auto; /* Scroll if overflow */
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.review-box {
+    background-color: #f8f9fa; /* Light gray background for the review box */
+    border: 1px solid #ddd; /* Light border */
+    padding: 10px; /* Padding for spacing */
+    margin-bottom: 10px; /* Space between reviews */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.review-box p {
+    margin: 0; /* Remove default margin */
+}
+
+/* Styles for footer */
+footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin-top: 40px;
+}
+
+/* Styling the movie poster image */
+.movie-poster {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar custom padding */
+.navbar-custom {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Movie Title Font Style */
+.movie-title {
+    font-size: 2.5rem;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
-.movie-details {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.movie-poster {
-    max-width: 300px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.movie-info {
-    max-width: 600px;
-}
-
+/* Movie Info font size */
 .movie-info p {
-    margin: 10px 0;
-}
-
-footer {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.back-button {
-    text-decoration: none;
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-    background-color: #0056b3;
+    font-size: 1.1rem;
 }

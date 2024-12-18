@@ -44,6 +44,7 @@
                 <h3>Deteksi Ekspresi Wajah</h3>
                 <div id="camera-container">
                     <video id="video" autoplay></video>
+                    <div id="camera-frame"></div>
                     <button onclick="capture()">Capture</button>
                 </div>
             </div>
@@ -71,12 +72,12 @@
                 </li>
             </ul>
         </div>
-        
         <div id="pagination" class = "pageBtn">
-            <button id="prev-page" onclick="loadPreviousPage()">Previous</button>
-            <span id="current-page">Page 1</span>
-            <button id="next-page" onclick="loadNextPage()">Next</button>
+            <button id="prevPage" onclick="prevPage()">Previous</button>
+            <span id="pageIndicator">Page 1</span>
+            <button id="nextPage" onclick="nextPage()">Next</button>
         </div>
+        
     </div>
     </div>
 
