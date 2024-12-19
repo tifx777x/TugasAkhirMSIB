@@ -1,80 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="'Details - ' + ${movie.title}"></title>
-    <link rel="stylesheet" href="/details.css"> <!-- Link ke file CSS eksternal -->
+    <link rel="stylesheet" href="/details.css" />
+    <!-- Link ke file CSS eksternal -->
     <!-- Bootstrap CSS for navbar and layout -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Navbar -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">CineMOOD</a> <!-- Button Kembali di Navbar -->
-                <div class="d-flex">
-                    <form class="d-flex" role="search" action="/search" method="get">
-                        <input class="form-control me-2" type="text" name="query" placeholder="Search by Title or Genre" required aria-label="Search">
-                        <button class="btn btn-outline-primary" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+      <nav
+        class="navbar navbar-expand-lg navbar-light"
+        style="background-color: #e3f2fd"
+      >
+        <div class="container">
+          <a class="navbar-brand fs-1" href="/" style="color: #2980b9"
+            >CineMOOD</a
+          >
+          <!-- Button Kembali di Navbar -->
+          <div class="d-flex">
+            <form class="d-flex" role="search" action="/search" method="get">
+              <input
+                class="form-control me-2"
+                type="text"
+                name="query"
+                placeholder="Search by Title or Genre"
+                required
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-primary" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
     </header>
 
-    <!-- Background Poster (Fading effect) -->
-    <div class="poster-background" style="background-image: url('https://image.tmdb.org/t/p/w500${movie.poster_path}');"></div>
-
-    <!-- Movie Details -->
     <div class="movie-details">
-        <div class="container mt-4">
-            <!-- Movie Title -->
-            <h1 th:text="${movie.title}" class="movie-title"></h1>
+      <div class="container mt-4">
+        <!-- Movie Title -->
+        <h1 th:text="${movie.title}" class="movie-title"></h1>
+        <div
+          class="row bg-primary movie-row-bgposter"
+          th:style="'background-image: url(https://image.tmdb.org/t/p/w500' + ${movie.poster_path} + ')'"
+        >
+          <div class="col-md-4">
+            <img
+              th:src="'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}"
+              alt="Poster"
+              class="movie-poster img-fluid"
+            />
+          </div>
 
-            <div class="row">
-                <!-- Poster -->
-                <div class="col-md-4">
-                    <img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}" alt="Poster" class="movie-poster img-fluid">
-                </div>
-
-                <!-- Movie Info -->
-                <div class="col-md-8">
-                    <p><strong>Genre:</strong> <span th:text="${movie.genres}"></span></p>
-                    <p><strong>Release Date:</strong> <span th:text="${movie.release_date}"></span></p>
-                    <p><strong>Rating:</strong> <span th:text="${movie.vote_average}"></span>/10</p>
-                    <p><strong>Overview:</strong></p>
-                    <p th:text="${movie.overview}"></p>
-                </div>
-            </div>
-
-            <!-- Trailer Section -->
-            <div class="trailer-background mt-4">
-                <iframe src="https://www.youtube.com/embed/${movie.trailer_id}?autoplay=1&mute=1&loop=1&playlist=${movie.trailer_id}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
-
-            <!-- User Reviews Section -->
-            <div class="mt-4">
-                <h5>User Reviews</h5>
-                <div id="user-reviews">
-                    <div th:each="review : ${movie.reviews}">
-                        <div class="review-box">
-                            <p><strong th:text="${review.author}"></strong>:</p>
-                            <p th:text="${review.content}"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+          <!-- Movie Info -->
+          <div class="col-md-8">
+            <p>
+              <strong class="fs-2">Genre:</strong>
+              <span class="fs-3" th:text="${movie.genres}"></span>
+            </p>
+            <p>
+              <strong class="fs-2">Release Date:</strong>
+              <span class="fs-3" th:text="${movie.release_date}"></span>
+            </p>
+            <p class="fs-3">
+              <strong class="fs-2">Rating:</strong>
+              <span class="fs-3" th:text="${movie.vote_average}"></span>/10
+            </p>
+            <p><strong class="fs-2">Overview:</strong></p>
+            <p class="fs-4" th:text="${movie.overview}"></p>
+          </div>
         </div>
+
+        <!-- Trailer Section -->
+        <div class="trailer-background mt-4">
+          <iframe
+            src="https://www.youtube.com/embed/${movie.trailer_id}?autoplay=1&mute=1&loop=1&playlist=${movie.trailer_id}"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <!-- User Reviews Section -->
+        <div class="mt-4">
+          <h5>User Reviews</h5>
+          <div id="user-reviews">
+            <div th:each="review : ${movie.reviews}">
+              <div class="review-box">
+                <p><strong th:text="${review.author}"></strong>:</p>
+                <p th:text="${review.content}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer class="text-center mt-4">
-        <p>&copy; 2024 CineMOOD</p>
+      <p>&copy; 2024 CineMOOD</p>
     </footer>
 
     <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
