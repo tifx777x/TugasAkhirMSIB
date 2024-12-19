@@ -15,7 +15,7 @@
   border-radius: 10px;  
   position: relative; /* Pastikan elemen ini sebagai konteks relatif */
   color: white; /* Teks tetap terlihat */
-  padding: 20px; /* Atur jarak */
+  padding: 60px 30px; /* Tambahkan padding atas untuk jarak lebih baik */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -33,8 +33,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(50px); /* Efek blur */
-  opacity: .8; /* Transparansi */
+  filter: blur(20px); /* Efek blur */
+  opacity: 0.8; /* Transparansi */
   z-index: 1; /* Letakkan di atas background asli */
 }
 
@@ -48,9 +48,11 @@
 .movie-details {
 
     position: relative;
-    padding-top: 60px;
+    padding-top: 30px;
+    margin-top: 20px;
     z-index: 2;
     background-color: white;
+    border-radius: 10px;
 }
 
 a {
@@ -98,10 +100,12 @@ footer {
 
 /* Styling the movie poster image */
 .movie-poster {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Pastikan poster berada di tengah */
+  max-width: 300px; /* Atur ukuran poster agar konsisten */
 }
 
 /* Navbar custom padding */
@@ -120,4 +124,19 @@ footer {
 /* Movie Info font size */
 .movie-info p {
     font-size: 1.1rem;
+}
+
+/* Styling Responsif */
+@media (max-width: 768px) {
+  .movie-row-bgposter {
+    padding: 40px 20px; /* Sesuaikan padding untuk layar kecil */
+  }
+
+  .movie-poster {
+    max-width: 200px; /* Kurangi ukuran poster */
+  }
+
+  .movie-details {
+    padding-top: 20px; /* Kurangi jarak atas pada layar kecil */
+  }
 }

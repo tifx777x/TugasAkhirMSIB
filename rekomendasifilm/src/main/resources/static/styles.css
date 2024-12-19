@@ -1,22 +1,21 @@
 /* Global Styles */
 * {
+    padding: 0;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
 body {
     background-color: #f4f4f4;
     color: #333;
     font-size: 16px;
-    padding: 20px;
     line-height: 1.6;
 }
 
 /* Container */
-.container {
-    max-width: 1200px;
+.container-content{
+    max-width: 1500px;
     margin: 0 auto;
     text-align: center;
 }
@@ -24,12 +23,11 @@ body {
 /* Heading */
 h1 {
     color: #2980b9;
-    font-size: xx-large;
     margin-bottom: 20px;
 }
 
 /* Button */
-button {
+.btnDetek {
     background-color: #2ecc71;
     color: white;
     padding: 10px 20px;
@@ -37,15 +35,15 @@ button {
     font-size: 16px;
     cursor: pointer;
     border: none;
-    margin: 10px;
+    margin-top: 20px;
     transition: background-color 0.3s;
 }
 
-button:hover {
+.btnDetek:hover {
     background-color: #27ae60;
 }
 
-button:focus {
+.btnDetek:focus {
     outline: none;
 }
 
@@ -118,32 +116,34 @@ button:focus {
 
 
 /* Form Styling */
-.search-form {
-    margin-top: 20px;
-}
 
 .search-form input {
     padding: 10px;
-    width: 60%;
+    width: 100%;
     max-width: 400px;
-    margin-right: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    margin-right: 15px;
 }
 
 .search-form button {
-    padding: 10px 15px;
+    padding: 10px;
     font-size: 16px;
     background-color: #3498db;
     border-radius: 5px;
     cursor: pointer;
     border: none;
+    color: white;
 }
 
 .search-form button:hover {
     background-color: #2980b9;
 }
 
+h2{
+ text-align: left;
+ margin-left: 5em;
+}
 /* Movie List */
 ul {
     list-style-type: none;
@@ -170,7 +170,7 @@ li img {
     object-fit: cover; /* Menjaga aspek rasio gambar */
 }
 
-a {
+li a {
     display: block;
     padding: 10px;
     text-decoration: none;
@@ -188,6 +188,14 @@ a:hover {
 }
 
 .pageBtn > button{
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s;
     background-color: #2980b9;
 }
 .pageBtn > button:hover{

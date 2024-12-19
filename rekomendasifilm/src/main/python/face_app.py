@@ -120,6 +120,16 @@ GENRE_MAP = {
     37: 'Western'
 }
 
+@app.after_request
+def apply_csp(response):
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self' https://www.youtube.com; "
+        "frame-src https://www.youtube.com; "
+        "style-src 'self' 'unsafe-inline'; "
+    )
+    return response
+
 @app.route('/details/<int:movie_id>', methods=['GET'])
 def movie_details(movie_id):
     try:
@@ -158,7 +168,7 @@ def movie_details(movie_id):
         print("Error fetching movie details:", str(e))
         traceback.print_exc()
         return jsonify({'error': 'Failed to fetch movie details'}), 500
-
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
