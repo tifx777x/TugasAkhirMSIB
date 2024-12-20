@@ -111,3 +111,9 @@ a {
   font-size: 1.1rem;       /* Ukuran font untuk indikator halaman */
   margin: 0 15px;          /* Memberikan jarak antara tombol dan indikator */
 }
+
+footer {
+  background-color: #f8f9fa;
+  padding: 10px;
+  margin-top: 40px;
+}

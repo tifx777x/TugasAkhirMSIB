@@ -26,6 +26,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+
 /* Button */
 .btnDetek {
     background-color: #2ecc71;
@@ -188,6 +189,7 @@ a:hover {
 }
 
 .pageBtn > button{
+    align-content:center ;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -200,6 +202,12 @@ a:hover {
 }
 .pageBtn > button:hover{
     background-color: #3498db;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin-top: 40px;
 }
     
 /* Responsive Design */

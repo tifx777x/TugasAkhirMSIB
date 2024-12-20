@@ -20,6 +20,28 @@ emotion_labels = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Sad', 'Surprised', 
 
 TMDB_API_KEY = '4822c132c84e58653f0d6ac31a477b69'
 
+GENRE_MAP = {
+    28: 'Action',
+    12: 'Adventure',
+    16: 'Animation',
+    35: 'Comedy',
+    80: 'Crime',
+    99: 'Documentary',
+    18: 'Drama',
+    10751: 'Family',
+    14: 'Fantasy',
+    36: 'History',
+    27: 'Horror',
+    10402: 'Music',
+    9648: 'Mystery',
+    10749: 'Romance',
+    878: 'Science Fiction',
+    10770: 'TV Movie',
+    53: 'Thriller',
+    10752: 'War',
+    37: 'Western'
+}
+
 @app.route('/detect-emotion', methods=['POST'])
 def detect_emotion():
     if 'image' not in request.files:
@@ -47,12 +69,12 @@ def detect_emotion():
 
         # Mapping emosi ke genre TMDB
         emotion_to_genre = {
-            'angry': 9648,       # Action
-            'happy': 14,    # fantasy
-            'sad': 35,         # Comedy
-            'fearful': 53,        # Thriller
-            'surprised': 27,
-            'disgusted': 35,
+            'angry': 9648,     #Action
+            'happy': 14,        #fantasy
+            'sad': 35,           #Comedy
+            'fearful': 53,        #Thriller
+            'surprised': 12,     #Horor
+            'disgusted': 35,    #Comedy
             'neutral': None,   # Semua Genre
         }
         genre_id = emotion_to_genre.get(detected_emotion)
@@ -67,7 +89,7 @@ def detect_emotion():
         recommended_movies = response['results']
 
         # Mengembalikan emosi dan rekomendasi film
-        return jsonify({'emotion': detected_emotion, 'movies': recommended_movies})
+        return jsonify({'emotion': detected_emotion, 'movies': recommended_movies, 'genre_id' : genre_id })
 
     except Exception as e:
         print("Error during processing:", str(e))
@@ -98,27 +120,7 @@ def search_movies():
         'total_pages': response.get('total_pages', 1)
     })
 
-GENRE_MAP = {
-    28: 'Action',
-    12: 'Adventure',
-    16: 'Animation',
-    35: 'Comedy',
-    80: 'Crime',
-    99: 'Documentary',
-    18: 'Drama',
-    10751: 'Family',
-    14: 'Fantasy',
-    36: 'History',
-    27: 'Horror',
-    10402: 'Music',
-    9648: 'Mystery',
-    10749: 'Romance',
-    878: 'Science Fiction',
-    10770: 'TV Movie',
-    53: 'Thriller',
-    10752: 'War',
-    37: 'Western'
-}
+
 
 @app.after_request
 def apply_csp(response):

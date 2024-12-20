@@ -6,6 +6,7 @@ const captureButton = document.getElementById('capture');
 const movieList = document.getElementById('movie-list');
 
 let detectedEmotion = ''; // Menyimpan emosi yang terdeteksi
+let detectedGenre = null;
 
 // Menampilkan dialog untuk membuka kamera
 detectButton.addEventListener("click", () => {
@@ -70,8 +71,11 @@ function capture() {
         .then(response => response.json())
         .then(data => {
             alert('Detected emotion: ' + data.emotion);
-            detectedEmotion = data.emotion; // Simpan emosi yang terdeteksi
+            detectedEmotion = data.emotion;
+            detectedGenre = data.genre_id; // Simpan emosi yang terdeteksi
+            currentPage = 1;
             displayMovies(data.movies); // Tampilkan film yang direkomendasikan
+            updatePaginationButtons(); 
         })
         .catch(error => console.error("Error sending image:", error));
     });
@@ -81,12 +85,16 @@ let currentPage = 1; // Halaman aktif
 const maxPage = 1000; // TMDB mendukung hingga 1000 halaman
 
 function fetchMovies(page = 1) {
-    const url = `http://localhost:5000/recommend?page=${page}`;
+    const baseUrl = 'http://localhost:5000/recommend';
+    const url = detectedGenre
+        ? `${baseUrl}?genre=${detectedGenre}&page=${page}`
+        : `${baseUrl}?page=${page}`;    
 
     fetch(url)
         .then(response => response.json())
         .then(movies => {
             displayMovies(movies); // Tampilkan film
+            currentPage = page;
             updatePaginationButtons(); // Perbarui status tombol
         })
         .catch(error => console.error("Error fetching movies:", error));
@@ -94,15 +102,13 @@ function fetchMovies(page = 1) {
 
 function nextPage() {
     if (currentPage < maxPage) {
-        currentPage++;
-        fetchMovies(currentPage);
+        fetchMovies(++currentPage);
     }
 }
 
 function prevPage() {
     if (currentPage > 1) {
-        currentPage--;
-        fetchMovies(currentPage);
+        fetchMovies(--currentPage);
     }
 }
 
